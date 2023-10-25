@@ -177,7 +177,7 @@ function displayGameResults() {
         const resultElement = document.createElement('p');
 
         // Display answer text and corresponding emoji based on success
-        resultElement.innerHTML = `${answer}: ${isSuccess ? '✔️ 💁‍♂️' : '❌🤦‍♀️'}`;
+        resultElement.innerHTML = `${answer}: ${isSuccess ? '✔️ 🤜' : '❌🤦‍♀️'}`;
 
         // Append the result element to the results div
         resultsDiv.appendChild(resultElement);
