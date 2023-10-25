@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Holes</title>
+
+</head>
+<body>
+    <a href="https://s-omas.github.io/holes/" class="logo-container">
+        <div class="book-icon"><img id="logoim" src="hole_img.png"></div>
+        <span class="logo-text">Holes<span class="gap"></span></span>
+    </a>
+    <div class="container flex">
+        <div id="results-container"></div>
+        <div id="trivia-container">
+            <h2><p id="title"></p></h2>
+            <div id="image_holder"></div>
+            <p id="question"></p>
+            <h1><p id="correct"></p></h1>
+            <!-- <input type="text" id="answer" placeholder="What word is missing?"> -->
+            <button onclick="checkAnswer()">Submit Answer</button>
+            <h3>Current score: <div id="score">0</div></h3>
+        </div>
+        
+    </div>
+    <script src="source.js"></script>
+</body>
+</html>

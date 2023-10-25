@@ -1,0 +1,115 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#trivia-container {
+    margin-top: 20px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+input {
+    padding: 8px;
+    margin-right: 10px;
+}
+/* Container styling */
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center horizontally */
+    position: fixed; /* Fixed positioning to stay at the top */
+    top: 0; /* Align to the top */
+    width: 100%; /* Occupy the full width of the viewport */
+    padding: 15px; /* Add some padding for spacing */
+    z-index: 999; /* Ensure it appears above other content */
+    text-decoration: none;
+  }
+  
+  /* Book icon styling */
+  .book-icon {
+    width: 60px; /* Increase the size accordingly */
+    height: 60px;
+    background-color: #3498db; /* Your chosen color */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    margin-right: 15px; /* Space between the book icon and text */
+  }
+  
+  /* Text styling */
+  .logo-text {
+    font-size: 30px; /* Increase the size accordingly */
+    font-weight: bold;
+    color: #333; /* Your chosen text color */
+  }
+  
+  /* Gap/hole styling */
+  .gap {
+    width: 15px; /* Increase the size accordingly */
+    height: 60px; /* Match the book icon height */
+    margin: 0 8px; /* Space between the book icon and gap */
+    background-color: #fff; /* Background color of the gap */
+  }
+
+
+/* #image_holder {
+    max-height: 150px;
+} */
+
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-10px); }
+    40% { transform: translateX(10px); }
+    60% { transform: translateX(-10px); }
+    80% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+  }
+
+.pulse-element {
+    width: 100px;
+    height: 100px;
+    background-color: #3498db;
+    /* Add any other styling you want for your element */
+}
+
+/* Animation for pulsing effect */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(2.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+#logoim{
+    width: 60px;
+}
