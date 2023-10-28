@@ -111,7 +111,13 @@ function checkAnswer() {
             if (currentMove < 4){
                 document.getElementById("image_holder").innerHTML = '';
                 document.getElementById('correct').textContent = "";
-                fetchRandomArticle()  
+                document.getElementById("trivia-container").style.display = 'none';
+                fetchRandomArticle();
+                document.getElementById("results-container").innerHTML = '<span class="redX">'+ answer +'</span>'
+                setTimeout(() => {
+                    document.getElementById("results-container").innerHTML = '';
+                    document.getElementById("trivia-container").style.display = 'block';
+                }, 600);
                 currentMove++
             } else {
                 res = displayGameResults();
