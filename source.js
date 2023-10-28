@@ -79,16 +79,21 @@ function stripPunctuation(str) {
 function checkAnswer() {
     console.log(answer)
     var userAnswer = document.getElementById("answer").value;
-
     pastAnswers.push(answer);
-    successHistory.push(answer.toLowerCase() == userAnswer.toLowerCase());
+    successHistory.push(answer.toLowerCase() == stripPunctuation(userAnswer.toLowerCase()));
 
-    if (answer.toLowerCase() == userAnswer.toLowerCase()){
+    if (answer.toLowerCase() == stripPunctuation(userAnswer.toLowerCase().replace(/\s/g, ""))){
         document.getElementById('answer').value = '';
         document.getElementById('score').textContent = parseInt(document.getElementById('score').textContent) + 1
         document.getElementById("image_holder").innerHTML = '';
         if (currentMove < 4){
-            fetchRandomArticle()
+            document.getElementById("trivia-container").style.display = 'none';
+            fetchRandomArticle();
+            document.getElementById("results-container").innerHTML = '<div class="checkmark">&#10004;</div>'
+            setTimeout(() => {
+                document.getElementById("results-container").innerHTML = '';
+                document.getElementById("trivia-container").style.display = 'block';
+            }, 600);
             currentMove++
         } else {
             res = displayGameResults();
@@ -101,7 +106,7 @@ function checkAnswer() {
         //fetchChosenArticle(answer)
         var q_holder = document.getElementById("question")
         shakeElement(q_holder)
-        document.getElementById('correct').textContent = "Correct answer: " + answer;
+        //document.getElementById('correct').textContent = "Correct answer: " + answer;
         setTimeout(() => {
             if (currentMove < 4){
                 document.getElementById("image_holder").innerHTML = '';
@@ -201,8 +206,46 @@ function displayGameResults() {
     // Append the "Try Again" button to the results div
     resultsDiv.appendChild(tryAgainButton);
 
+    //share button
+    const shareButton = document.createElement('button');
+    shareButton.innerHTML = 'Share';
+    shareButton.addEventListener('click', () => copyResultsToClipboard(resultsDiv));
+
+    // Add styling to the "Share" button
+    shareButton.style.display = 'block';
+    shareButton.style.padding = '10px';
+    shareButton.style.marginTop = '20px';
+    shareButton.style.backgroundColor = '#008CBA';
+    shareButton.style.color = 'white';
+    shareButton.style.textDecoration = 'none';
+    shareButton.style.border = 'none';
+    shareButton.style.borderRadius = '5px';
+    shareButton.style.cursor = 'pointer';
+
+    // Append the "Share" button to the results div
+    resultsDiv.appendChild(shareButton);
+
     // Return the results div
     return resultsDiv;
 }
 
+
+function copyResultsToClipboard(resultsDiv) {
+    var resultsText = resultsDiv.innerText;
   
+    // Create a temporary textarea to copy the text to clipboard
+    const textarea = document.createElement('textarea');
+    resultsText = resultsText.slice(0, -15);
+    resultsText = resultsText + " play at holes.wiki"
+    textarea.value = resultsText;
+    document.body.appendChild(textarea);
+  
+    // Select and copy the text
+    textarea.select();
+    document.execCommand('copy');
+  
+    // Remove the temporary textarea
+    document.body.removeChild(textarea);
+  
+    alert('Results copied to clipboard!');
+  }
