@@ -8,6 +8,17 @@ body {
     height: 100vh;
 }
 
+.checkmark {
+    font-size: 4em;
+    color: green;
+}
+
+.redX {
+    font-size: 1.5em;
+    color: red;
+    margin-right: 5px;
+}
+
 .container {
     background-color: #fff;
     padding: 20px;
