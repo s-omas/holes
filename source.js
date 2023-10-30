@@ -294,7 +294,7 @@ function makeCustomUrl() {
     for (t in pastTitles) {
         urlstr = urlstr + t + '=' + pastTitles[t] + '&';
     }
-    return urlstr;
+    return urlstr.replaceAll(" ", "_");
 }
 
 function copyToClipboard(text) {
