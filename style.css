@@ -1,8 +1,8 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0;
+    background-color: #e8e8e8;
     margin: 0;
-    display: flex;
+    display: block;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -25,6 +25,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: center;
+    max-width: 90vh;
 }
 
 #trivia-container {
@@ -123,4 +124,13 @@ input {
 
 #logoim{
     width: 60px;
+}
+
+footer {
+    background-color: #e8e8e8; /* Light gray color */
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
 }
