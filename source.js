@@ -2,20 +2,35 @@ var currentScore;
 var currentMove = 0;
 document.addEventListener("DOMContentLoaded", function() {
     fetchRandomArticle();
-    console.log(result);
     currentScore = 0;
     currentMove = 0;
-    
 });
 var answer;
 var pastAnswers = [];
 var successHistory = [];
+var pastTitles = [];
 
 function fetchRandomArticle() {
-    // Use cors-anywhere to bypass CORS restriction.
-    //const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    //const timestamp = new Date().getTime();
-    const apiUrl = 'https://en.wikipedia.org/api/rest_v1/page/random/summary'
+    if (getParameterByName(currentMove.toString()) != null){
+        fetchChosenArticle(getParameterByName(currentMove.toString()));
+    } else {
+        const apiUrl = 'https://en.wikipedia.org/api/rest_v1/page/random/summary'
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const title_text = data['title'];
+                const extract_text = data['extract'];
+                console.log(title_text, extract_text);
+                displayQuestion(title_text, extract_text, data['thumbnail']['source'])
+            })
+            .catch(error => console.error('Error fetching random article:', error));
+    }
+}
+
+
+function fetchChosenArticle(title) {
+
+    const apiUrl = 'https://en.wikipedia.org/api/rest_v1/page/summary/' + title
 
     fetch(apiUrl)
         .then(response => response.json())
@@ -24,28 +39,15 @@ function fetchRandomArticle() {
             const extract_text = data['extract'];
             console.log(title_text, extract_text);
             displayQuestion(title_text, extract_text, data['thumbnail']['source'])
+            
         })
-        .catch(error => console.error('Error fetching random article:', error));
+        .catch(error => fetchRandomArticle());
 }
 
-// function fetchChosenArticle(title) {
-//     // Use cors-anywhere to bypass CORS restriction.
-//     //const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
-//     //const timestamp = new Date().getTime();
-//     const apiUrl = 'https://en.wikipedia.org/api/rest_v1/page/summary/' + title
-
-//     fetch(apiUrl)
-//         .then(response => response.json())
-//         .then(data => {
-//             const title_text = data['title'];
-//             const extract_text = data['extract'];
-//             console.log(title_text, extract_text);
-//             displayQuestion(title_text, extract_text)
-//         })
-//         .catch(error => fetchRandomArticle());
-// }
 
 function displayQuestion(title_text, extract_text, img_src) {
+    pastTitles.push(title_text);
+
     const questionElement = document.getElementById("question");
     document.getElementById("title").textContent = title_text;
     var imgElement = document.createElement("img");
@@ -88,13 +90,14 @@ function checkAnswer() {
         document.getElementById("image_holder").innerHTML = '';
         if (currentMove < 4){
             document.getElementById("trivia-container").style.display = 'none';
+            currentMove++
             fetchRandomArticle();
             document.getElementById("results-container").innerHTML = '<div class="checkmark">&#10004;</div>'
             setTimeout(() => {
                 document.getElementById("results-container").innerHTML = '';
                 document.getElementById("trivia-container").style.display = 'block';
             }, 600);
-            currentMove++
+            
         } else {
             res = displayGameResults();
             document.getElementById("trivia-container").style.display = 'none';
@@ -112,13 +115,14 @@ function checkAnswer() {
                 document.getElementById("image_holder").innerHTML = '';
                 document.getElementById('correct').textContent = "";
                 document.getElementById("trivia-container").style.display = 'none';
+                currentMove++
                 fetchRandomArticle();
                 document.getElementById("results-container").innerHTML = '<span class="redX">'+ answer +'</span>'
                 setTimeout(() => {
                     document.getElementById("results-container").innerHTML = '';
                     document.getElementById("trivia-container").style.display = 'block';
                 }, 600);
-                currentMove++
+                
             } else {
                 res = displayGameResults();
                 document.getElementById("trivia-container").style.display = 'none';
@@ -231,6 +235,25 @@ function displayGameResults() {
     // Append the "Share" button to the results div
     resultsDiv.appendChild(shareButton);
 
+    //share button
+    const gameLinkButton = document.createElement('button');
+    gameLinkButton.innerHTML = 'Copy link to game';
+    gameLinkButton.addEventListener('click', () => copyToClipboard(makeCustomUrl()));
+
+    // Add styling to the "Share" button
+    gameLinkButton.style.display = 'block';
+    gameLinkButton.style.padding = '10px';
+    gameLinkButton.style.marginTop = '20px';
+    gameLinkButton.style.backgroundColor = '#008CBA';
+    gameLinkButton.style.color = 'white';
+    gameLinkButton.style.textDecoration = 'none';
+    gameLinkButton.style.border = 'none';
+    gameLinkButton.style.borderRadius = '5px';
+    gameLinkButton.style.cursor = 'pointer';
+
+    // Append the "Share" button to the results div
+    resultsDiv.appendChild(gameLinkButton);
+
     // Return the results div
     return resultsDiv;
 }
@@ -241,7 +264,7 @@ function copyResultsToClipboard(resultsDiv) {
   
     // Create a temporary textarea to copy the text to clipboard
     const textarea = document.createElement('textarea');
-    resultsText = resultsText.slice(0, -15);
+    resultsText = resultsText.slice(0, -35);
     resultsText = resultsText + " play at holes.wiki"
     textarea.value = resultsText;
     document.body.appendChild(textarea);
@@ -255,3 +278,33 @@ function copyResultsToClipboard(resultsDiv) {
   
     alert('Results copied to clipboard!');
   }
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+function makeCustomUrl() {
+    var urlstr = 'holes.wiki?'
+    for (t in pastTitles) {
+        urlstr = urlstr + t + '=' + pastTitles[t] + '&';
+    }
+    return urlstr;
+}
+
+function copyToClipboard(text) {
+    var textarea = document.createElement('textarea');
+    textarea.value = text;
+
+    document.body.appendChild(textarea);
+
+    textarea.select();
+    document.execCommand('copy');
+
+    document.body.removeChild(textarea);
+}
