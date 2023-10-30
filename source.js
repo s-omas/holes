@@ -290,7 +290,7 @@ function getParameterByName(name, url) {
 }
 
 function makeCustomUrl() {
-    var urlstr = 'holes.wiki?'
+    var urlstr = 'http://holes.wiki?'
     for (t in pastTitles) {
         urlstr = urlstr + t + '=' + pastTitles[t] + '&';
     }
