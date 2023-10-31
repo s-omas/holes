@@ -307,4 +307,5 @@ function copyToClipboard(text) {
     document.execCommand('copy');
 
     document.body.removeChild(textarea);
+    alert("Link copied to clipboard!")
 }
