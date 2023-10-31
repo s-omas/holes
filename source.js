@@ -201,7 +201,7 @@ function displayGameResults() {
     // Create a "Try Again" button link
     const tryAgainButton = document.createElement('a');
     tryAgainButton.href = 'https://s-omas.github.io/holes/'; 
-    tryAgainButton.innerHTML = 'Try Again';
+    tryAgainButton.innerHTML = 'Play Again';
 
     tryAgainButton.style.display = 'block';
     tryAgainButton.style.padding = '10px';
